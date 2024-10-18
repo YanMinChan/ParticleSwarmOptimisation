@@ -8,5 +8,5 @@ class Perceptron:
     def __init__(self,activationFunc):
         self.activationFunc = activationFunc
 
-    def CalculateOutput(weights, input):
-        np.dot(input.T,weights)
+    def CalculateOutput(self, weights, input):
+        np.dot(np.array(input).T,np.array(weights))
