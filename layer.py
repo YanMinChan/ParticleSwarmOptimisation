@@ -1,4 +1,5 @@
 import perceptron
+import numpy as np
 
 class layer:
 
@@ -16,20 +17,19 @@ class layer:
         # Now that I think of it the weights might be more complicated than I thought, now we are treating it as one array for a layer, but
         # every perceptron actually has its own array of weights. Maybe here the input needs to be a 2D array, like an array of arrays?
 
-        # Changed the inputs and the weights to be passed to the calculation function instead of the constructor, probably makes more sense like this?
-        # I imagine we might want to change those without remaking a layer
+        # YM: Yeah. Did the lecturer mention we should fix the number of layer and perceptron?
+        # it'll be really complicated to do swarm optimisation if we have flexible number of layer and perceptron I think
 
     def layerCalculation(self, inputs, weights = None):
 
         self.weights = weights
         self.inputs = inputs
-
         # initialize all weights as 1 in case we do not have any specified
         # it is now an 2D array, lists containing weights for a single neuron (one weight for each input) grouped into a list (one list of weights for every neuron)
         if weights == None:
-            weights = [[1] * len(inputs)] * self.numOfNodes
+            self.weights = [[1] * len(inputs)] * self.numOfNodes
 
         for i, perc in enumerate(self.perceptronArr):
-            self.output[i] = perc.CalculateOutput(weights=weights[i], input=inputs)
+            self.output[i] = perc.CalculateOutput(weights=self.weights[i], input=inputs)
         return self.output
         
