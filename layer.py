@@ -24,12 +24,15 @@ class layer:
 
         self.weights = weights
         self.inputs = inputs
+
+        outputDummy = [0] * len(self.perceptronArr)
         # initialize all weights as 1 in case we do not have any specified
         # it is now an 2D array, lists containing weights for a single neuron (one weight for each input) grouped into a list (one list of weights for every neuron)
         if weights == None:
-            self.weights = [[1] * len(inputs)] * self.numOfNodes
+            self.weights = [[0.2] * len(inputs)] * self.numOfNodes
 
         for i, perc in enumerate(self.perceptronArr):
             self.output[i] = perc.CalculateOutput(weights=self.weights[i], input=inputs)
-        return self.output
+            outputDummy[i] = perc.CalculateOutput(weights=self.weights[i], input=inputs)
+        return outputDummy
         
