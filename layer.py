@@ -33,6 +33,6 @@ class layer:
 
         for i, perc in enumerate(self.perceptronArr):
             self.output[i] = perc.CalculateOutput(weights=self.weights[i], input=inputs)
-            outputDummy[i] = perc.CalculateOutput(weights=self.weights[i], input=inputs)
-        return outputDummy
+            #outputDummy[i] = perc.CalculateOutput(weights=self.weights[i], input=inputs)
+        return self.output
         
