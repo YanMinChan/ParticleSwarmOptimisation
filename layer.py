@@ -15,18 +15,20 @@ class layer:
         self.weigths = None
         self.bias = None
 
-    def layerCalculation(self, inputs, weights):
+    def layerCalculation(self, inputs, weights, bias):
 
         self.weights = weights
         self.inputs = inputs
+        self.bias = bias
 
         self.output = [0] * len(self.perceptronArr)
-        self.bias = [1] * len(self.perceptronArr)
         # initialize all weights as 1 in case we do not have any specified
         # it is now an 2D array, lists containing weights for a single neuron (one weight for each input) grouped into a list (one list of weights for every neuron)
-        if weights == None:
-            self.weights = [[0.2] * len(inputs) for _ in range(self.numOfNodes)]
+        # if weights == None:
+        #     self.weights = [[0.2] * len(inputs) for _ in range(self.numOfNodes)]
 
+        # if bias == None:
+        #     self.bias = [1] * len(self.perceptronArr)
         for i, perc in enumerate(self.perceptronArr):
             self.output[i] = perc.CalculateOutput(weights=self.weights[i], input=inputs, bias=self.bias[i])
         return self.output
