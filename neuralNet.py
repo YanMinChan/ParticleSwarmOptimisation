@@ -8,10 +8,12 @@ class neuralNet:
     def add(self, layer):
         self.layers.append(layer)
 
-    def forwardCalculation(self,input,weight=None):
+    def forwardCalculation(self,input,weight=None,bias=None):
+        i = 0
         for layer in self.layers:
-            output = layer.layerCalculation(input, weight)
+            output = layer.layerCalculation(input, weight[i], bias[i])
             input = output
+            i = i + 1
         
         return output
     
