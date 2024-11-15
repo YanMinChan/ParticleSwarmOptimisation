@@ -102,7 +102,7 @@ class PSO:
         # Initialize rand particle and global best
         self.randParticle()
         self.randAssignInformant(1)
-        best = self.particles[0]
+        best_pos = None
         best_sse = None
 
         # There should be another for loop here covering all the steps until we reach an optimal best
@@ -113,9 +113,10 @@ class PSO:
                 sse = self.assessFitness(particle.pos, self.y)
                 self.isNewBest(sse, particle)
                 if best_sse == None or sse < best_sse:
-                    best = particle
+                    best_pos = particle.pos
                     best_sse = sse
                     print("Current best =", best_sse)
+                    print("Current best pos = ", best_pos)
                 
             # Gather information
             for particle in self.particles:
@@ -129,5 +130,6 @@ class PSO:
             for particle in self.particles:
                 # Do the change pos
                 particle.pos = particle.pos + (self.epsilon * particle.velo)
-        print(best_sse)
-        return best
+        print("Final best = ", best_sse)
+        print("Final best pos = ", best_pos)
+        return best_pos
