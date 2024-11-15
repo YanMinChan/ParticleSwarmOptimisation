@@ -19,5 +19,5 @@ class neuralNet:
     
     def sseCalculation(self, yhat, y):
         yhat = yhat.apply(lambda x:x[0]) # flatten from list to float
-        sse = sum((yhat - y)**2)
+        sse = sum((abs(yhat - y)))/len(yhat)
         return sse
