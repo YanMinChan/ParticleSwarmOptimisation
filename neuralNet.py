@@ -8,9 +8,16 @@ class neuralNet:
     def add(self, layer):
         self.layers.append(layer)
 
-    def forwardCalculation(self,input):
+    def forwardCalculation(self,input,weight=None,bias=None):
+        i = 0
         for layer in self.layers:
-            output = layer.layerCalculation(input)
+            output = layer.layerCalculation(input, weight[i], bias[i])
             input = output
+            i = i + 1
         
         return output
+    
+    def sseCalculation(self, yhat, y):
+        yhat = yhat.apply(lambda x:x[0]) # flatten from list to float
+        sse = sum((yhat - y)**2)
+        return sse

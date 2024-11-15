@@ -8,6 +8,6 @@ class Perceptron:
     def __init__(self,activationFunc):
         self.activationFunc = activationFunc
 
-    def CalculateOutput(self, weights, input):
-        z = np.dot(np.array(input).T,np.array(weights))
+    def CalculateOutput(self, weights, input, bias):
+        z = np.dot(np.array(input).T,np.array(weights)) + bias
         return self.activationFunc(z)
