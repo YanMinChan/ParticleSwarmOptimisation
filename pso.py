@@ -5,7 +5,7 @@ import particle
 import numpy as np
 
 class PSO:
-    def __init__(self, X, y, network, swarmsize, alpha, beta, gamma, delta, epsilon, nIter):
+    def __init__(self, X, y, network, swarmsize, alpha, beta, gamma, delta, epsilon, nIter,prints=True):
         self.X = X
         self.y = y
         self.swarmsize = swarmsize
@@ -17,6 +17,7 @@ class PSO:
         self.epsilon = epsilon
         self.particles = None
         self.nIter = nIter
+        self.prints = prints
 
     def particleDim(self):
         dim = 0
@@ -118,7 +119,8 @@ class PSO:
                     best_pos = particle.pos
                     best_mae = mae
                     best_mae_arr.append(best_mae)
-                    print("Current best mae:", best_mae)
+                    if self.prints == True:
+                        print("Current best mae:", best_mae)
                 
             # Gather information
             for particle in self.particles:
@@ -132,5 +134,6 @@ class PSO:
             for particle in self.particles:
                 # Do the change pos
                 particle.pos = particle.pos + (self.epsilon * particle.velo)
-        print("Final best mae", best_mae)
+        if self.prints == True:        
+            print("Final best mae", best_mae)
         return best_pos, best_mae_arr
