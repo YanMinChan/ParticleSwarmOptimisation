@@ -5,7 +5,7 @@ import particle
 import numpy as np
 
 class PSO:
-    def __init__(self, X, y, network, swarmsize, alpha, beta, gamma, delta, epsilon):
+    def __init__(self, X, y, network, swarmsize, alpha, beta, gamma, delta, epsilon, nIter):
         self.X = X
         self.y = y
         self.swarmsize = swarmsize
@@ -16,6 +16,7 @@ class PSO:
         self.delta = delta
         self.epsilon = epsilon
         self.particles = None
+        self.nIter = nIter
 
     def particleDim(self):
         dim = 0
@@ -46,11 +47,11 @@ class PSO:
     # Return the fittest location of all particles given
     def fittestLoc(self, someParticles):
         fittest_pos = None
-        fittest_sse = None
+        fittest_mae = None
         for p in someParticles: # supposed to be particle instead of list
-            sse = self.assessFitness(p.pos, self.y)
-            if fittest_sse == None or sse < fittest_sse:
-                fittest_sse = sse
+            mae = self.assessFitness(p.pos, self.y)
+            if fittest_mae == None or mae < fittest_mae:
+                fittest_mae = mae
                 fittest_pos = p.pos
         return fittest_pos
 
@@ -83,17 +84,17 @@ class PSO:
         
         # Calculate the pred y
         yhat = self.X.apply(self.network.forwardCalculation, args = (weights_arr, bias_arr), axis = 1)
-        sse = self.network.sseCalculation(yhat, y)
+        mae = self.network.sseCalculation(yhat, y)
 
-        return sse
+        return mae
     
     # (Additional) Calculate sse of prev best pos and compare
-    def isNewBest(self, sse, particle):
+    def isNewBest(self, mae, particle):
         
         prevBest = particle.prevBest
-        sse_prev = self.assessFitness(prevBest, self.y)
+        mae_prev = self.assessFitness(prevBest, self.y)
 
-        if sse < sse_prev:
+        if mae < mae_prev:
             particle.prevBest = particle.pos
 
     # Find a best particle (weight) and return it
@@ -103,20 +104,21 @@ class PSO:
         self.randParticle()
         self.randAssignInformant(1)
         best_pos = None
-        best_sse = None
+        best_mae = None
+        best_mae_arr = []
 
         # There should be another for loop here covering all the steps until we reach an optimal best
         #while (self.assessFitness(best.pos) >= 1000):
-        for i in range(10):
+        for i in range(self.nIter):
             # Access fitness of each particle (set of weights)
             for particle in self.particles:
-                sse = self.assessFitness(particle.pos, self.y)
-                self.isNewBest(sse, particle)
-                if best_sse == None or sse < best_sse:
+                mae = self.assessFitness(particle.pos, self.y)
+                self.isNewBest(mae, particle)
+                if best_mae == None or mae < best_mae:
                     best_pos = particle.pos
-                    best_sse = sse
-                    print("Current best =", best_sse)
-                    print("Current best pos = ", best_pos)
+                    best_mae = mae
+                    best_mae_arr.append(best_mae)
+                    print("Current best mae:", best_mae)
                 
             # Gather information
             for particle in self.particles:
@@ -130,6 +132,5 @@ class PSO:
             for particle in self.particles:
                 # Do the change pos
                 particle.pos = particle.pos + (self.epsilon * particle.velo)
-        print("Final best = ", best_sse)
-        print("Final best pos = ", best_pos)
-        return best_pos
+        print("Final best mae", best_mae)
+        return best_pos, best_mae_arr
