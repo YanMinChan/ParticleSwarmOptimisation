@@ -103,7 +103,7 @@ class PSO:
         inputLen = len(self.X.columns)
         # Initialize rand particle and global best
         self.randParticle()
-        self.randAssignInformant(1)
+        self.randAssignInformant(6)
         best_pos = None
         best_mae = None
         best_mae_arr = []

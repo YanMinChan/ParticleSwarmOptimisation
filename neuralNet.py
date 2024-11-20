@@ -1,6 +1,6 @@
 class neuralNet:
 
-    layers = []
+    #layers = []
 
     def __init__(self):
         self.layers = []
