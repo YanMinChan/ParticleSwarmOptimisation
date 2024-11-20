@@ -85,7 +85,7 @@ class PSO:
         
         # Calculate the pred y
         yhat = self.X.apply(self.network.forwardCalculation, args = (weights_arr, bias_arr), axis = 1)
-        mae = self.network.sseCalculation(yhat, y)
+        mae = self.network.errorCalculation(yhat, y)
 
         return mae
     
