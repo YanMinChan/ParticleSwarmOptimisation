@@ -32,8 +32,8 @@ class PSO:
         self.particles = []
         for i in range(self.swarmsize):
             #np.random.seed(0) # fix the random for easier checking
-            pos = np.random.rand(self.particleDim())
-            velo = np.random.rand(self.particleDim())
+            pos = (np.random.rand(self.particleDim()) * 4) - 2
+            velo = (np.random.rand(self.particleDim()) * 4) - 2
             self.particles.append(particle.Particle(pos, velo, self.alpha, self.beta, self.gamma, self.delta)) # Try to add rand particle here
         return self.particles
     
@@ -119,6 +119,8 @@ class PSO:
                     best_pos = particle.pos
                     best_mae = mae
                     best_mae_arr.append(best_mae)
+                    print("Current iter = ", i)
+                    print(best_pos)
                     if self.prints == True:
                         print("Current best mae:", best_mae)
                 
