@@ -19,6 +19,7 @@ class PSO:
         self.nIter = nIter
         self.prints = prints
 
+    # Calculating the number of dimensions needed for the particles (including all weights and bias)
     def particleDim(self):
         dim = 0
         inputLen = len(self.X.columns)
@@ -27,13 +28,13 @@ class PSO:
             inputLen = self.network.layers[i].numOfNodes
         return dim
     
-    # Array of random particles
+    # Generate an array of random particles 
     def randParticle(self):
         self.particles = []
         for i in range(self.swarmsize):
             #np.random.seed(0) # fix the random for easier checking
-            pos = (np.random.rand(self.particleDim()) * 4) - 2
-            velo = (np.random.rand(self.particleDim()) * 4) - 2
+            pos = (np.random.rand(self.particleDim()) * 2) - 1
+            velo = (np.random.rand(self.particleDim()) * 2) - 1
             self.particles.append(particle.Particle(pos, velo, self.alpha, self.beta, self.gamma, self.delta)) # Try to add rand particle here
         return self.particles
     
@@ -45,11 +46,11 @@ class PSO:
             for i in range(numOfInformant):
                 particle.informant = random.sample(other_particles, numOfInformant)
 
-    # Return the fittest location of all particles given
+    # Return the fittest location of all the particles in someParticles
     def fittestLoc(self, someParticles):
         fittest_pos = None
         fittest_mae = None
-        for p in someParticles: # supposed to be particle instead of list
+        for p in someParticles:
             mae = self.assessFitness(p.pos, self.y)
             if fittest_mae == None or mae < fittest_mae:
                 fittest_mae = mae
@@ -84,7 +85,13 @@ class PSO:
         weights_arr, bias_arr = self.assessFitness_helper(pos)
         
         # Calculate the pred y
+
         yhat = self.X.apply(self.network.forwardCalculation, args = (weights_arr, bias_arr), axis = 1)
+        # print(self.X.iloc[0])
+        # print(self.X.iloc[1])
+        # print("First", self.network.forwardCalculation(self.X.iloc[0], weights_arr, bias_arr))
+        # print("Second", self.network.forwardCalculation(self.X.iloc[1], weights_arr, bias_arr))
+        #print("yhat:\n", yhat)
         mae = self.network.errorCalculation(yhat, y)
 
         return mae
@@ -119,8 +126,8 @@ class PSO:
                     best_pos = particle.pos
                     best_mae = mae
                     best_mae_arr.append(best_mae)
-                    print("Current iter = ", i)
-                    print(best_pos)
+                    # print("Current iter = ", i)
+                    # print(best_pos)
                     if self.prints == True:
                         print("Current best mae:", best_mae)
                 

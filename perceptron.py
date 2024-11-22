@@ -10,4 +10,5 @@ class Perceptron:
 
     def CalculateOutput(self, weights, input, bias):
         z = np.dot(np.array(input).T,np.array(weights)) + bias
-        return self.activationFunc(z)
+        s = self.activationFunc(z)
+        return s
