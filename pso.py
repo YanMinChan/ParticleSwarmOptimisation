@@ -24,7 +24,7 @@ class PSO:
         dim = 0
         inputLen = len(self.X.columns)
         for i in range(len(self.network.layers)):
-            dim = dim + ((self.network.layers[i].numOfNodes * inputLen) + self.network.layers[i].numOfNodes) # plus 1 for bias
+            dim = dim + ((self.network.layers[i].numOfNodes * inputLen) + self.network.layers[i].numOfNodes)
             inputLen = self.network.layers[i].numOfNodes
         return dim
     
@@ -85,13 +85,7 @@ class PSO:
         weights_arr, bias_arr = self.assessFitness_helper(pos)
         
         # Calculate the pred y
-
         yhat = self.X.apply(self.network.forwardCalculation, args = (weights_arr, bias_arr), axis = 1)
-        # print(self.X.iloc[0])
-        # print(self.X.iloc[1])
-        # print("First", self.network.forwardCalculation(self.X.iloc[0], weights_arr, bias_arr))
-        # print("Second", self.network.forwardCalculation(self.X.iloc[1], weights_arr, bias_arr))
-        #print("yhat:\n", yhat)
         mae = self.network.errorCalculation(yhat, y)
 
         return mae
@@ -126,8 +120,6 @@ class PSO:
                     best_pos = particle.pos
                     best_mae = mae
                     best_mae_arr.append(best_mae)
-                    # print("Current iter = ", i)
-                    # print(best_pos)
                     if self.prints == True:
                         print("Current best mae:", best_mae)
                 
@@ -143,6 +135,7 @@ class PSO:
             for particle in self.particles:
                 # Do the change pos
                 particle.pos = particle.pos + (self.epsilon * particle.velo)
+
         if self.prints == True:        
             print("Final best mae", best_mae)
         return best_pos, best_mae_arr

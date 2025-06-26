@@ -3,3 +3,6 @@ Report.pdf
 
 # Ignore signing sheet
 CW_SigningSheet.pdf
+
+# Ignore cache
+__pychache__
