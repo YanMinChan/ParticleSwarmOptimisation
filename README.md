@@ -3,7 +3,7 @@
 - The model predicted the strength of concrete with the given numeric dataset, obtaining an error measurement of 13.67 with sd of 2.523.
 
 # Design of the ANN
-- Activation function applied: Logistic, Hyperbolic and ReLU
+- Activation function applied: Logistic, Hyperbolic and ReLU\
 ![Class Diagram Design of the ANN](./_images/Convergence_of_error.png)
 
 # Sample of dataset
